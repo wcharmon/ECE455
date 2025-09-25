@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-#SBATCH --partiion=instruction
+#SBATCH --partition=instruction
 
 #SBATCH --time=00:02:00
 
