@@ -62,7 +62,7 @@ int main() {
     {
         std::atomic<int> counter{0};
         auto ms = run_and_time(T, [&]{ inc_atomic(counter); });
-        std::cout << "[No lock]  counter= " << counter.load() << " (expected " << expected << "), " << ms << " ms\n";
+        std::cout << "[Atomic]  counter= " << counter.load() << " (expected " << expected << "), " << ms << " ms\n";
     }
     return 0;
 }
