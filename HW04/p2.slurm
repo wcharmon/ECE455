@@ -8,9 +8,9 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --gpus-per-task=1
 
-#SBATCH --output=hello.output
+#SBATCH --output=thread_indexing.output
 
 module load nvidia/cuda
-nvcc hello.cu -o hello
-./hello
+nvcc thread_indexing.cu -o thread_indexing
+./thread_indexing
 
