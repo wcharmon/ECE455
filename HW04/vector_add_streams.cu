@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <cuda_runtime.h>
+
 
 __global__ void vector_add(const float *A, const float *B, float *C, int N) {
 
@@ -54,7 +54,7 @@ int main() {
 
     printf("C[0] = %f, C[N-1] = %f\n", h_C[0], h_C[N - 1]);
 
-    cudaStreamDestory(stream1);
+    cudaStreamDestroy(stream1);
     cudaStreamDestroy(stream2);
 
     cudaFree(d_A);
