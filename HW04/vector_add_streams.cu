@@ -45,13 +45,13 @@ int main() {
     vector_add<<<blocks_half, threads, 0, stream1>>>(d_A, d_B, d_C, half);
     vector_add<<<blocks_half, threads, 0, stream1>>>(d_A + half, d_B + half, d_C + half, half);
 
-    cudaMemcpyAsync(C, d_C, half_size, cudaMemcpyDeviceToHost, stream1);
-    cudaMemcpyAsync(C + half, d_C + half, half_size, cudaMemcpyDeviceToHost, stream2);
+    cudaMemcpyAsync(h_C, d_C, half_size, cudaMemcpyDeviceToHost, stream1);
+    cudaMemcpyAsync(h_C + half, d_C + half, half_size, cudaMemcpyDeviceToHost, stream2);
 
     cudaStreamSynchronize(stream1);
     cudaStreamSynchronize(stream2);
 
-    printf("C[0] = %f, C[N-1] = %f\n", h_C[0], C[N - 1]);
+    printf("C[0] = %f, C[N-1] = %f\n", h_C[0], h_C[N - 1]);
 
     cudaStreamDestory(stream1);
     cudaStreamDestroy(stream2);
