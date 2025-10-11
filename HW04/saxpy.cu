@@ -10,7 +10,7 @@ __global__ void saxpy(int n, float a, float *x, float *y){
 int main() {
     int N = 1000000;
     size_t size = N * sizeof(float);
-    float *h_x, *h_y, *d_x, *d_y
+    float *h_x, *h_y, *d_x, *d_y;
 
     h_x = (float*)malloc(size);
     h_y = (float*)malloc(size);
