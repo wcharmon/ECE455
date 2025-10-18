@@ -194,7 +194,7 @@ int main() {
     // performance
     const size_t num_measurement_tests{2};
     const size_t num_measurement_warmups{1};
-    size_t m{MAT_DIM}. n{MAT_DIM}, p{MAT_DIM};
+    size_t m{MAT_DIM}, n{MAT_DIM}, p{MAT_DIM};
 
     float mm_cuda_int32_latency = measure_latency_mm_cuda<int32_t>(m, n, p, num_measurement_tests, num_measurement_warmups);
     float mm_cuda_float_latency = measure_latency_mm_cuda<float>(m, n, p, num_measurement_tests, num_measurement_warmups);
