@@ -231,6 +231,7 @@ int main() {
     std::cout << "INT32: " << std::fixed << std::setprecision(5) << mm_cuda_int32_latency << " ms\n";
     std::cout << "FLOAT: " << std::fixed << std::setprecision(5) << mm_cuda_float_latency << " ms\n";
     std::cout << "DOUBLE: " << std::fixed << std::setprecision(5) << mm_cuda_double_latency << " ms\n";
+    std::cout << "Unrolled!\n";
 
     return 0;
 }
