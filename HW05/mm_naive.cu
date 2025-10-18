@@ -58,6 +58,20 @@ void mm(T const* mat_1, T const* mat_2, T* mat_3, size_t m, size_t n, size_t p)
 }
 
 template <typename T>
+void mm_cuda(T const* mat_1, T const* mat_2, T* mat_3, size_t m, size_t n,
+             size_t p)
+{
+    dim3 threads_per_block(BLOCK_DIM, BLOCK_DIM);
+    dim3 blocks_per_grid(1, 1);
+    blocks_per_grid.x = std::ceil(static_cast<double>(p) /
+                                  static_cast<double>(threads_per_block.x));
+    blocks_per_grid.y = std::ceil(static_cast<double>(m) /
+                                  static_cast<double>(threads_per_block.y));
+    mm_kernel<<<blocks_per_grid, threads_per_block>>>(mat_1, mat_2, mat_3, m, n,
+                                                      p);
+}
+
+template <typename T>
 bool allclose(std::vector<T> const& vec_1, std::vector<T> const& vec_2,
               T const& abs_tol)
 {
@@ -163,20 +177,6 @@ float measure_latency_mm_cuda(size_t m, size_t n, size_t p,
     checkCuda(cudaFree(d_mat_4));
 
     return time / num_tests;
-}
-
-template <typename T>
-void mm_cuda(T const* mat_1, T const* mat_2, T* mat_3, size_t m, size_t n,
-             size_t p)
-{
-    dim3 threads_per_block(BLOCK_DIM, BLOCK_DIM);
-    dim3 blocks_per_grid(1, 1);
-    blocks_per_grid.x = std::ceil(static_cast<double>(p) /
-                                  static_cast<double>(threads_per_block.x));
-    blocks_per_grid.y = std::ceil(static_cast<double>(m) /
-                                  static_cast<double>(threads_per_block.y));
-    mm_kernel<<<blocks_per_grid, threads_per_block>>>(mat_1, mat_2, mat_3, m, n,
-                                                      p);
 }
 
 // Kernel
