@@ -57,6 +57,25 @@ void mm(T const* mat_1, T const* mat_2, T* mat_3, size_t m, size_t n, size_t p)
     }
 }
 
+// Kernel
+
+template <typename T>
+__global__ void mm_kernel(T const* mat_1, T const* mat_2, T* mat_3, size_t m, size_t n, size_t p) {
+
+    size_t i{blockIdx.x * blockDim.x + threadIdx.x};
+    size_t j{blockIdx.y * blockDim.y + threadIdx.y};
+
+    if ((i >= m ) || (j >= p)) return;
+
+    T acc_sum{0};
+    for (size_t k{0}; k < n; ++k) {
+        acc_sum += mat_1[i * n + k] * mat_2[k * p + j];
+    }
+
+    mat_3[i * p + j] = acc_sum;
+
+}
+
 template <typename T>
 void mm_cuda(T const* mat_1, T const* mat_2, T* mat_3, size_t m, size_t n,
              size_t p)
@@ -179,24 +198,7 @@ float measure_latency_mm_cuda(size_t m, size_t n, size_t p,
     return time / num_tests;
 }
 
-// Kernel
 
-template <typename T>
-__global__ void mm_kernel(T const* mat_1, T const* mat_2, T* mat_3, size_t m, size_t n, size_t p) {
-
-    size_t i{blockIdx.x * blockDim.x + threadIdx.x};
-    size_t j{blockIdx.y * blockDim.y + threadIdx.y};
-
-    if ((i >= m ) || (j >= p)) return;
-
-    T acc_sum{0};
-    for (size_t k{0}; k < n; ++k) {
-        acc_sum += mat_1[i * n + k] * mat_2[k * p + j];
-    }
-
-    mat_3[i * p + j] = acc_sum;
-
-}
 
 // Main
 int main() {
