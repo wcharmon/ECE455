@@ -68,7 +68,7 @@ __global__ void mm_unrolled_kernel(T const* mat_1, T const* mat_2, T* mat_3, siz
     if ((i >= m ) || (j >= p)) return;
 
     T acc_sum{0};
-    size_t k{0}
+    size_t k{0};
 
     for (; k + 3 < n; k += 4) {
         acc_sum += mat_1[i * n + (k + 0)] * mat_2[(k + 0) * p + j];
