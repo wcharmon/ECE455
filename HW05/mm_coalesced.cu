@@ -86,7 +86,7 @@ void mm_cuda(T const* mat_1, T const* mat_2, T* mat_3, size_t m, size_t n,
                                   static_cast<double>(threads_per_block.x));
     blocks_per_grid.y = std::ceil(static_cast<double>(m) /
                                   static_cast<double>(threads_per_block.y));
-    mm_kernel<<<blocks_per_grid, threads_per_block>>>(mat_1, mat_2, mat_3, m, n,
+    mm_coalesced_kernel<<<blocks_per_grid, threads_per_block>>>(mat_1, mat_2, mat_3, m, n,
                                                       p);
 }
 
