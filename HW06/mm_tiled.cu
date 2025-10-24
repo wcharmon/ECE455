@@ -45,7 +45,7 @@ __global__ void mm_tiled(const T* A,const T* B, T* C, size_t N) {
         __syncthreads(); // wait for tiles to be filled
 
         for (int i = 0; i < TILE_SIZE; ++i) {
-            sum += tile_A[threadIdx.y][k] * tile_B[k][threadIdx.x];
+            sum += tile_A[threadIdx.y][i] * tile_B[i][threadIdx.x];
         }
         __syncthreads();
 
