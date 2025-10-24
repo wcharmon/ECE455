@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <random>
+#include <iomanip>
 
 #define TILE_SIZE 16
 #define MAT_DIM 1024
@@ -183,7 +184,7 @@ int main() {
     dim3 threads(threadsPerBlock);
     mm_naive<<<blocks, threads>>>(data_A, data_B, data_C, N);
     cudaDeviceSynchronize();
-    cudaMemcpy(h_C_gpu_naive.data(), d_C, sizeof(float) * N * N, cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_C_gpu_naive.data(), data_C, sizeof(float) * N * N, cudaMemcpyDeviceToHost);
 
     // run kernel tiled
     dim3 threadsPer(TILE_SIZE, TILE_SIZE);
