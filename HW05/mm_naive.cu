@@ -6,6 +6,7 @@
 #include <random>
 #include <stdexcept>
 #include <vector>
+#include <cuda_runtime.h>
 
 #define BLOCK_DIM 32
 #define MAT_DIM 1024 
