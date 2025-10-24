@@ -32,7 +32,7 @@ __global__ void mm_naive(const T* A, const T* B, T* C, int N){
         sum += A[row * N + k] * B[k * N + col];
     }
 
-    C[tid] = val;
+    C[tid] = sum;
 }
 
 template <typename T>
@@ -181,7 +181,7 @@ int main() {
     int totalThreads = N * N;
     dim3 blocks((totalThreads + threadsPerBlock - 1) / threadsPerBlock);
     dim3 threads(threadsPerBlock);
-    mm_naive<<<blocks, threads>>>(d_A, d_B, d_C, N);
+    mm_naive<<<blocks, threads>>>(data_A, data_B, data_C, N);
     cudaDeviceSynchronize();
     cudaMemcpy(h_C_gpu_naive.data(), d_C, sizeof(float) * N * N, cudaMemcpyDeviceToHost);
 
@@ -190,7 +190,7 @@ int main() {
     dim3 blocksPer((N + TILE_SIZE - 1) / TILE_SIZE, (N + TILE_SIZE - 1) / TILE_SIZE);
     mm_tiled<<<blocksPer, threadsPer>>>(data_A, data_B, data_C, N);
     cudaDeviceSynchronize();
-    cudaMemcpy(h_C_gpu.data(), data_C, sizeof(float) * N * N, cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_C_gpu_tiled.data(), data_C, sizeof(float) * N * N, cudaMemcpyDeviceToHost);
 
 
     // validate
