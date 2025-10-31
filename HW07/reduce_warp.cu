@@ -41,7 +41,7 @@ __device__ int warp_reduce_sum(int val){
 
 // kernel
 __global__ void reduce_warp(const int* in, int* out, size_t size){
-    int index = blockIdx.x * BlockDim.x + threadIdx.x;
+    int index = blockIdx.x * blockDim.x + threadIdx.x;
     int val = (index < size) ? in[index] : 0;
 
     val = warp_reduce_sum(val);
@@ -73,7 +73,7 @@ int main(){
     dim3 threads(BLOCK_DIM);
     dim3 blocks((N + BLOCK_DIM - 1) / BLOCK_DIM);
 
-    reduce_shared<<<blocks, threads>>>(d_in, d_out, N);
+    reduce_warp<<<blocks, threads>>>(d_in, d_out, N);
 
     cudaMemcpy(&gpu_result, d_out, sizeof(int), cudaMemcpyDeviceToHost);
 
