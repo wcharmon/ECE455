@@ -66,7 +66,7 @@ int main(){
     cudaFree(d_in);
     cudaFree(d_out);
 
-    if (gpu_result == ref) {
+    if (gpu_result != ref) {
         std::cout << "Validation failed, GPU implementation does not match CPU implementation \n";
         std::cout << "GPU = " << gpu_result << ", CPU = " << ref << "\n"; 
     }
