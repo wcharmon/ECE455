@@ -31,9 +31,9 @@ int reduce_ref(const std::vector<int>& data) {
 
 
 // kernel
-__global__ void reduce_naive(const int* in, int* out, size_t N){
+__global__ void reduce_naive(const int* in, int* out, size_t size){
     unsigned int id = blockIdx.x * blockDim.x + threadIdx.x;
-    if (id < N) {
+    if (id < size) {
         atomicAdd(out, in[id]);
     }
 }
